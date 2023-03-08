@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tirar el I Ching</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Climate+Crisis&display=swap" rel="stylesheet">
+
+
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
+body { font-family: 'Anton', sans-serif;
+ 
+ 
+  background-image: url("https://thumbs.dreamstime.com/b/corona-de-plantas-y-flores-blanco-negro-postal-trama-211511674.jpg");
+  background-repeat:  no-repeat;
+ background-position: center;
+ background-size: auto;
+
+
+}
+.tirar:hover{
+background-color:#A70A05 
+
+
+}
+.tirar:active{
+background-color:gold
+
+}
+
+.resultado:hover{
+color:#A70A05 
+
+
+}
+
+.lista:hover{
+  color:#A70A05 
+
+
+}
+h1:hover{
+
+  color:#A70A05 
+}
+    </style>
+
+
+   
+  </head>
+  <body class="bg-light">
+    <div class="container">
+      <h1 class="text-center my-5 ">Tirar el I Ching</h1>
+      <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+          <div class="card">
+            <div class="card-body">
+              <p class="card-text text-center">Haz clic en el botón para generar un hexagrama:</p>
+              <button class="btn btn-block btn-secondary tirar" onclick="tirar()">Tirar el I Ching</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h2 class="text-center my-5  resultado">Resultado:</h2>
+      <div class="row">
+        <div class="col-sm-6 offset-sm-3">
+          <div class="card">
+            <div class="card-body">
+              <p id="resultado" class="card-text text-center "></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+<footer class="text-center lista">  
+   <li text-line> Intrucciones</li>
+  <li> Realiza una pregunta al I Ching</li>
+  <li> Presiona el boton tirar el I Ching</li>
+  <li> Lee tu respuesta</li>
+  <li> Namaste</li>
+
+</footer>
+</div>
+  </body>
+  </html>
+
+
+    <script>
+
+
+
+// Crear una lista de los hexagramas del I Ching
+const hexagramas = [ {
+    nombre: "Qian",
+    descripcion: "El Cielo",
+    interpretacion: "Un poderoso símbolo de fuerza, creatividad y éxito. Representa el momento en que la mente y el espíritu están completamente enfocados en un objetivo.",
+  },
+  {
+    nombre: "Kun",
+    descripcion: "La Tierra",
+    interpretacion: "Representa la energía maternal y la fertilidad. Es un símbolo de estabilidad y armonía.",
+  },
+  {
+    nombre: "Tun",
+    descripcion: "La Dificultad Inicial",
+    interpretacion: "Este hexagrama representa un momento de prueba o dificultad que se presenta al comienzo de una empresa o proyecto. Es importante mantener la calma y perseverar para superar los obstáculos iniciales.",
+  },
+  {
+    nombre: "Meng",
+    descripcion: "El Engranaje del Cambio",
+    interpretacion: "Este hexagrama indica un momento en que es necesario adaptarse a los cambios que se están produciendo. Es importante estar abiertos a nuevas ideas y enfoques para lograr el éxito.",
+  },
+  {
+    nombre: "Xu",
+    descripcion: "La Espera",
+    interpretacion: "Este hexagrama indica un momento en que es necesario ser pacientes y esperar el momento adecuado para actuar. Es importante ser estratégicos y mantener la perseverancia.",
+  },
+  {
+    nombre: "Song",
+    descripcion: "El Conflicto",
+    interpretacion: "Este hexagrama indica un momento de conflicto o enfrentamiento. Es importante mantener la calma y buscar soluciones pacíficas para evitar consecuencias negativas.",
+  },
+  {
+    nombre: "Shi",
+    descripcion: "El Ejército",
+    interpretacion: "Este hexagrama representa la necesidad de una planificación cuidadosa y una preparación adecuada para lograr el éxito en una empresa o proyecto.",
+  },
+  {
+    nombre: "Bi",
+    descripcion: "La Unión",
+    interpretacion: "Este hexagrama representa la unión de fuerzas para lograr un objetivo común. Es importante mantener la armonía y el trabajo en equipo para lograr el éxito.",
+  },
+  {
+    nombre: "Xiao Chu",
+    descripcion: "La Fuerza Doméstica Menor",
+    interpretacion: "Este hexagrama representa un momento en que es necesario ser humildes y aceptar la ayuda de los demás para lograr el éxito. Es importante mantener la honestidad y la humildad.",
+  },
+  {
+    nombre: "Lü",
+    descripcion: "La Marcha",
+    interpretacion: "Este hexagrama indica un momento en que es necesario avanzar con cuidado y precaución para lograr el éxito. Es importante estar preparados y mantener la perseverancia.",
+  },
+  {
+    nombre: "Tai",
+    descripcion: "La Paz",
+    interpretacion: "Este hexagrama representa un momento de armonía y equilibrio. Es importante mantener la calma y la serenidad para lograr la paz interior y exterior.",
+  },
+
+  {
+    nombre: "Pi",
+    descripcion: "La Estancación",
+    interpretacion: "Este hexagrama indica un momento en que la energía se estanca y es necesario encontrar formas de moverse. Es importante ser proactivos y buscar soluciones para evitar el estancamiento.",
+  },
+  {
+    nombre: "Tong Ren",
+    descripcion: "La Comunidad",
+    interpretacion: "Este hexagrama representa la importancia de la comunidad y las relaciones sociales para lograr el éxito. Es importante mantener la comunicación y el respeto mutuo.",
+  },
+  {
+    nombre: "Da You",
+    descripcion: "La Gran Abundancia",
+    interpretacion: "Este hexagrama indica un momento de abundancia y prosperidad. Es importante mantener la humildad y compartir la riqueza con los demás.",
+  },
+  {
+    nombre: "Qian",
+    descripcion: "El Progreso",
+    interpretacion: "Este hexagrama representa el avance y el progreso en una empresa o proyecto. Es importante mantener la determinación y la perseverancia para lograr el éxito.",
+  },
+  {
+    nombre: "Yi",
+    descripcion: "El Cambio",
+    interpretacion: "Este hexagrama representa la necesidad de adaptarse a los cambios que se están produciendo. Es importante mantener la flexibilidad y la capacidad de adaptación.",
+  },
+  {
+    nombre: "Xiao Guo",
+    descripcion: "La Preponderancia Menor",
+    interpretacion: "Este hexagrama indica un momento en que es necesario mantener la calma y la moderación para lograr el éxito. Es importante no dejarse llevar por la emoción y tomar decisiones reflexivas.",
+  },
+  {
+    nombre: "Da Guo",
+    descripcion: "La Preponderancia Mayor",
+    interpretacion: "Este hexagrama indica un momento de poder y autoridad. Es importante utilizar este poder de manera sabia y responsable para lograr el éxito.",
+  },
+  {
+    nombre: "Qian",
+    descripcion: "El Viajero",
+    interpretacion: "Este hexagrama representa el camino del viajero y la importancia de tener un objetivo claro en mente. Es importante mantener la determinación y la perseverancia para lograr el éxito en el camino.",
+  },
+  {
+    nombre: "Kan",
+    descripcion: "El Abismo",
+    interpretacion: "Este hexagrama indica un momento de peligro y desafío. Es importante mantener la calma y la prudencia para evitar consecuencias negativas.",
+  },
+  {
+    nombre: "Li",
+    descripcion: "El Fuego",
+    interpretacion: "Este hexagrama representa el fuego y la pasión. Es importante utilizar esta energía de manera sabia y canalizarla hacia un objetivo positivo.",
+  },{ nombre: "Xian",
+  descripcion: "La Influencia",
+  interpretacion: "Este hexagrama representa la influencia y el impacto que una persona puede tener en su entorno. Es importante utilizar este poder de manera sabia y responsable para lograr el éxito y no abusar del poder sobre los demás."},{
+    nombre: "Heng",
+    descripcion: "La Duración",
+    interpretacion: "Este hexagrama representa la importancia de la duración y la persistencia en el logro de objetivos. Es importante mantener el enfoque y la determinación para superar los desafíos y alcanzar el éxito.",
+  },
+  {
+    nombre: "Dun",
+    descripcion: "La Oposición",
+    interpretacion: "Este hexagrama indica un momento de oposición y conflicto. Es importante mantener la calma y la diplomacia para resolver los desacuerdos de manera efectiva.",
+  },
+  {
+    nombre: "Da Zhuang",
+    descripcion: "El Poderoso",
+    interpretacion: "Este hexagrama representa el poder y la fuerza. Es importante utilizar este poder de manera sabia y responsable para lograr el éxito y no abusar del poder sobre los demás.",
+  },
+  {
+    nombre: "Xiao Chu",
+    descripcion: "La Preponderancia Menor",
+    interpretacion: "Este hexagrama indica un momento en que es necesario mantener la calma y la moderación para lograr el éxito. Es importante no dejarse llevar por la emoción y tomar decisiones reflexivas.",
+  },
+  {
+    nombre: "Gu",
+    descripcion: "La Reunión",
+    interpretacion: "Este hexagrama representa la importancia de la unión y la cooperación para lograr el éxito. Es importante mantener la comunicación y el respeto mutuo para trabajar juntos eficazmente.",
+  },
+  {
+    nombre: "Lin",
+    descripcion: "La Adherencia",
+    interpretacion: "Este hexagrama representa la importancia de la adherencia a principios y valores. Es importante mantener la integridad y la honestidad en todo momento.",
+  },
+  {
+    nombre: "Guai",
+    descripcion: "La Oposición",
+    interpretacion: "Este hexagrama indica un momento de oposición y conflicto. Es importante mantener la calma y la diplomacia para resolver los desacuerdos de manera efectiva.",
+  },
+  {
+    nombre: "Qian",
+    descripcion: "La Inquietud",
+    interpretacion: "Este hexagrama representa un momento de inquietud y ansiedad. Es importante mantener la calma y la perspectiva para encontrar soluciones a los problemas y superar la incertidumbre.",
+  },
+  {
+    nombre: "Dui",
+    descripcion: "La Alegría",
+    interpretacion: "Este hexagrama representa la alegría y la felicidad. Es importante disfrutar del momento y compartir la alegría con los demás.",
+  },
+  {
+    nombre: "Huan",
+    descripcion: "La Disolución",
+    interpretacion: "Este hexagrama indica un momento de disolución y desintegración. Es importante aceptar el cambio y adaptarse a las nuevas circunstancias para lograr el éxito.",
+  },
+  {
+    nombre: "Gou",
+    descripcion: "El Empalme",
+    interpretacion: "Este hexagrama representa el empalme de fuerzas y energías para lograr un objetivo común. Es importante mantener la comunicación y el trabajo en equipo para lograr el éxito.",
+    
+  },
+
+  {
+    nombre: "Cui",
+    descripcion: "El Caldero",
+    interpretacion: "Este hexagrama representa el caldero como un símbolo de renovación y transformación. Es importante estar dispuesto a hacer cambios y sacrificios para lograr un objetivo mayor.",
+  },
+  {
+    nombre: "Sheng",
+    descripcion: "El Aumento",
+    interpretacion: "Este hexagrama representa el aumento y el crecimiento. Es un momento propicio para invertir en proyectos y relaciones que tengan potencial de crecimiento y éxito a largo plazo.",
+  },
+  {
+    nombre: "Kun",
+    descripcion: "La Receptividad",
+    interpretacion: "Este hexagrama representa la importancia de la receptividad y la apertura para recibir nuevas ideas y oportunidades. Es importante estar dispuesto a escuchar y considerar diferentes perspectivas.",
+  },
+  {
+    nombre: "Gen",
+    descripcion: "El Inmovilizado",
+    interpretacion: "Este hexagrama representa la sensación de estar atrapado o inmovilizado en una situación difícil. Es importante mantener la calma y la perseverancia para encontrar una solución y superar los obstáculos.",
+  },
+  {
+    nombre: "Kan",
+    descripcion: "La Humildad",
+    interpretacion: "Este hexagrama representa la importancia de la humildad y la modestia. Es importante reconocer las limitaciones y aceptar la ayuda y el consejo de los demás para lograr el éxito.",
+  },
+  {
+    nombre: "Li",
+    descripcion: "El Fuego",
+    interpretacion: "Este hexagrama representa el fuego como un símbolo de energía y transformación. Es un momento propicio para iniciar nuevos proyectos y tomar medidas audaces para lograr el éxito.",
+  },
+  {
+    nombre: "Xian",
+    descripcion: "La Influencia",
+    interpretacion: "Este hexagrama representa la influencia y el impacto que una persona puede tener en su entorno. Es importante utilizar este poder de manera sabia y responsable para lograr el éxito y no abusar del poder sobre los demás.",
+  },
+  {
+    nombre: "Dui",
+    descripcion: "La Unión",
+    interpretacion: "Este hexagrama representa la importancia de la unión y la cooperación para lograr el éxito. Es importante mantener la comunicación y el respeto mutuo para trabajar juntos eficazmente.",
+  },
+  {
+    nombre: "Qian",
+    descripcion: "El Cielo",
+    interpretacion: "Este hexagrama representa el cielo como un símbolo de fuerza y poder. Es un momento propicio para tomar medidas audaces y lograr el éxito, siempre y cuando se mantenga la integridad y se respeten los valores y principios éticos.",
+  },
+  {
+    nombre: "Yong",
+    descripcion: "La Perseverancia",
+    interpretacion: "Este hexagrama representa la importancia de la perseverancia y la persistencia en la consecución de objetivos. Es importante mantener el enfoque y la determinación para superar los desafíos y lograr el éxito.",
+  },
+  {
+    nombre: "Gui Mei",
+    descripcion: "La Joven que se Casa",
+    interpretacion: "Este hexagrama se relaciona con un momento de cambio y transición en la vida de una persona, especialmente en lo que se refiere a las relaciones amorosas y matrimoniales. Indica un tiempo propicio para contraer matrimonio o iniciar una relación sentimental seria."
+  },
+  {
+    nombre: "Feng",
+    descripcion: "La Abundancia",
+    interpretacion: "Este hexagrama indica que el momento es propicio para cosechar los frutos de nuestro trabajo y disfrutar de los beneficios de nuestra labor. Se relaciona con la prosperidad, la abundancia y la riqueza, tanto material como espiritual."
+  },
+  {
+    nombre: "Lu",
+    descripcion: "El Viajero",
+    interpretacion: "Este hexagrama indica un momento de movimiento, de viaje y de exploración. Se relaciona con la búsqueda de nuevos horizontes, ya sea de manera literal (viajando físicamente) o figurativa (explorando nuevas ideas y conceptos)."
+  },
+  {
+    nombre: "Xun",
+    descripcion: "El Viento",
+    interpretacion: "Este hexagrama se relaciona con la idea de cambio constante y de movimiento en la vida. Indica que los vientos de la fortuna están soplando a nuestro favor y que debemos aprovechar las oportunidades que se nos presenten. También se relaciona con la flexibilidad y la adaptabilidad."
+  },
+  {
+    nombre: "Dui",
+    descripcion: "La Alegría",
+    interpretacion: "Este hexagrama se relaciona con la felicidad, el gozo y la alegría en la vida. Indica que es un momento propicio para disfrutar de las cosas buenas que la vida nos ofrece y para compartir nuestra felicidad con los demás."
+  },
+  {
+    nombre: "Huan",
+    descripcion: "La Dispersión",
+    interpretacion: "Este hexagrama indica un momento de cambio y de separación. Se relaciona con la idea de dejar ir lo que ya no nos sirve o nos limita para poder avanzar hacia nuevos horizontes. También se relaciona con la dispersión de nuestras energías y recursos, lo que puede llevarnos a perder el enfoque y la dirección."
+  },
+  {
+    nombre: "Jie",
+    descripcion: "La Limitación",
+    interpretacion: "Este hexagrama indica un momento de restricción y de limitación en la vida. Se relaciona con la idea de estar atrapado en una situación difícil o de sentirnos restringidos en nuestros movimientos y acciones. Sin embargo, también puede ser un momento propicio para reflexionar y buscar soluciones creativas a nuestros problemas."
+  },
+  {
+    nombre: "Zhong Fu",
+    descripcion: "La Fidelidad Interior",
+    interpretacion: "Este hexagrama se relaciona con la idea de la fidelidad y la lealtad hacia uno mismo. Indica que es un momento propicio para cultivar nuestra integridad y para actuar de acuerdo con nuestros valores y principios, aunque esto signifique ir en contra de la opinión de los demás."
+  },{
+nombre: "Xiao Guo",
+descripcion: "La Pequeña Excedencia",
+interpretacion: "Este hexagrama indica un momento de excedencia, de tener más de lo que necesitamos. Se relaciona con la idea de la gratitud y la generosidad, ya sea recibiendo o dando. También puede indicar un momento de precaución, ya que la excedencia puede llevar a la arrogancia y la complacencia."
+},
+{
+nombre: "Ji Ji",
+descripcion: "Después de la Consumación",
+interpretacion: "Este hexagrama se relaciona con la idea de la culminación de un proyecto o una tarea. Indica que se ha logrado algo importante y que es momento de disfrutar de los frutos de nuestro trabajo. Sin embargo, también puede ser un momento propicio para reflexionar sobre lo que hemos aprendido en el proceso y para prepararnos para nuevos desafíos."
+},
+{
+nombre: "Wei Ji",
+descripcion: "Antes de la Consumación",
+interpretacion: "Este hexagrama indica un momento de incertidumbre y de espera en la vida. Se relaciona con la idea de estar en el umbral de algo importante, pero aún no haberlo logrado. Puede ser un momento de ansiedad y de duda, pero también puede ser un momento propicio para reflexionar sobre nuestros objetivos y para prepararnos para lo que viene."
+}
+
+  // Agregar aquí los 64 hexagramas del I Ching
+];
+
+// Función para generar un número aleatorio entre 1 y 64
+function generarNumeroAleatorio() {
+  return Math.floor(Math.random() * 64) + 1;
+}
+
+// Función para generar el hexagrama tirado
+function generarHexagrama() {
+  // Generar dos números aleatorios para formar el hexagrama
+  const numero1 = generarNumeroAleatorio();
+  const numero2 = generarNumeroAleatorio();
+
+  // Buscar los hexagramas en la lista
+  const hexagrama1 = hexagramas[numero1 - 1];
+  const hexagrama2 = hexagramas[numero2 - 1];
+
+  // Combinar los hexagramas para formar el hexagrama tirado
+  const hexagramaTirado = {
+    nombre: `${hexagrama1.nombre} / ${hexagrama2.nombre}`,
+    descripcion: `${hexagrama1.descripcion} / ${hexagrama2.descripcion}`,
+    interpretacion:`${hexagrama1.interpretacion} / ${hexagrama2.interpretacion}`
+  };
+
+  // Devolver el hexagrama tirado
+  return hexagramaTirado;
+}
+
+// Función para mostrar el resultado del hexagrama tirado
+function mostrarResultado(resultado) {
+  const resultadoElemento = document.getElementById("resultado");
+  resultadoElemento.innerHTML = `${resultado.nombre}:${resultado.descripcion}:${resultado.interpretacion}`;
+}
+
+// Función para tirar el I Ching
+function tirar() {
+  const hexagramaTirado = generarHexagrama();
+  mostrarResultado(hexagramaTirado);
+}
+    </script>
+   
